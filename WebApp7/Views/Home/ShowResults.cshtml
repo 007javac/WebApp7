@@ -1,0 +1,58 @@
+﻿@model SubjectsGradesApp.Models.SubjectsViewModel
+
+<div class="container mt-5">
+    <div class="card">
+        <div class="card-header bg-success text-white">
+            <h2 class="text-center">Результаты</h2>
+        </div>
+        <div class="card-body">
+            @if (!Model.HasValidSubjects)
+            {
+                <div class="alert alert-warning">
+                    Нет данных для отображения. Пожалуйста, введите хотя бы один предмет.
+                </div>
+            }
+            else
+            {
+                <ol class="list-group">
+                    @for (int i = 0; i < Model.Subjects.Count; i++)
+                    {
+                        string currentColor = string.Empty;
+                        switch (i % 3)
+                        {
+                            case 0:
+                                currentColor = Model.Colors.Color1;
+                                break;
+                            case 1:
+                                currentColor = Model.Colors.Color2;
+                                break;
+                            case 2:
+                                currentColor = Model.Colors.Color3;
+                                break;
+                            default:
+                                currentColor = "#000000";
+                                break;
+                        }
+
+                        <li class="list-group-item d-flex justify-content-between align-items-center"
+                            style="color: @currentColor;">
+                            <span class="subject-name">@Model.Subjects[i].SubjectName</span>
+                            <span class="badge bg-primary rounded-pill">@Model.Subjects[i].Grade</span>
+                        </li>
+                    }
+                </ol>
+
+                <div class="mt-4 text-center">
+                    <h4>
+                        Средний балл:
+                        <span class="badge bg-info">@Model.AverageGrade.ToString("F2")</span>
+                    </h4>
+                </div>
+            }
+
+            <div class="text-center mt-3">
+                <a asp-action="Index" class="btn btn-secondary btn-lg">Назад к вводу</a>
+            </div>
+        </div>
+    </div>
+</div>

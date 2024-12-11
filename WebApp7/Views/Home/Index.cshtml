@@ -1,8 +1,71 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
-}
+﻿@model SubjectsGradesApp.Models.SubjectsViewModel
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="container mt-5">
+    <div class="card">
+        <div class="card-header bg-primary text-white">
+            <h2 class="text-center">Ввод предметов и оценок</h2>
+        </div>
+        <div class="card-body">
+            <form asp-action="ShowResults" method="post">
+                @if (!ViewData.ModelState.IsValid)
+                {
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach (var modelState in ViewData.ModelState.Values)
+                            {
+                                @foreach (var error in modelState.Errors)
+                                {
+                                    <li>@error.ErrorMessage</li>
+                                }
+                            }
+                        </ul>
+                    </div>
+                }
+
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label asp-for="Colors.Color1">Первый цвет:</label>
+                            <input asp-for="Colors.Color1" class="form-control color-picker" type="color" />
+                            <small class="form-text text-muted">Выберите первый цвет списка</small>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Colors.Color2">Второй цвет:</label>
+                            <input asp-for="Colors.Color2" class="form-control color-picker" type="color" />
+                            <small class="form-text text-muted">Выберите второй цвет списка</small>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Colors.Color3">Третий цвет:</label>
+                            <input asp-for="Colors.Color3" class="form-control color-picker" type="color" />
+                            <small class="form-text text-muted">Выберите третий цвет списка</small>
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                        <h4>Введите предметы и оценки</h4>
+                        @for (int i = 0; i < 9; i++)
+                        {
+                            <div class="form-row mb-2">
+                                <div class="col">
+                                    <input asp-for="Subjects[i].SubjectName"
+                                           class="form-control"
+                                           placeholder="Название предмета" />
+                                </div>
+                                <div class="col-3">
+                                    <input asp-for="Subjects[i].Grade"
+                                           class="form-control"
+                                           type="number"
+                                           min="2"
+                                           max="5"
+                                           placeholder="Оценка" />
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+                <div class="text-center mt-3">
+                    <button type="submit" class="btn btn-primary btn-lg">Показать результаты</button>
+                </div>
+            </form>
+        </div>
+    </div>
 </div>
